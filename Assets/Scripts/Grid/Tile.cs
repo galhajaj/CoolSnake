@@ -16,6 +16,8 @@ public class Tile : MonoBehaviour
 			_isSelected = value; 
 		}
 	}*/
+
+    public int FillCounter = 0;
     
     public Color Color
     {

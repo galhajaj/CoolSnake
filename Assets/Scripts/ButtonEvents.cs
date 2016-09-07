@@ -3,57 +3,27 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class ButtonEvents : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ButtonEvents : MonoBehaviour, IPointerDownHandler
 {
-    public float TimeBeforeSpeedMove = 1.5F;
-    public float TimeOfSpeedMoveStep = 0.25F;
-    private float _timeToStartSpeedMove;
-    private float _timeToMove = 0.0F;
-
-    private bool _isHold = false;
-
     public GameLoop GameLoopScript;
+    public SnakeDirection Direction;
 
 	// Use this for initialization
 	void Start () 
     {
-        _timeToStartSpeedMove = TimeBeforeSpeedMove;
+        
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        //_timeToMove -= Time.deltaTime;
 
-        if (_isHold)
-        {
-            _timeToStartSpeedMove -= Time.deltaTime;
-            if (_timeToStartSpeedMove <= 0.0F)
-            {
-                _timeToMove -= Time.deltaTime;
-
-                if (_timeToMove <= 0.0)
-                {
-                    //Debug.Log("ACT!");
-                    _timeToMove = TimeOfSpeedMoveStep;
-                }
-            }
-        }
-        else
-        {
-            _timeToStartSpeedMove = TimeBeforeSpeedMove;
-        }
 	}
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log("DOWN");
-        _isHold = true;
+        Time.timeScale = 1.0F;
+        GameLoopScript.Direction = Direction;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        //Debug.Log("UP");
-        _isHold = false;
-    }
 }

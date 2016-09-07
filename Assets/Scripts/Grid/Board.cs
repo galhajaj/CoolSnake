@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 public class Point
 {
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
     public int X { get; set; }
     public int Y { get; set; }
 }
@@ -52,7 +57,18 @@ public class Board : MonoBehaviour
 
     public Tile GetTile(int x, int y)
     {
-        return _tilesDictioanry[x.ToString() + "-" + y.ToString()];
+        if (_tilesDictioanry.ContainsKey(x.ToString() + "-" + y.ToString()))
+            return _tilesDictioanry[x.ToString() + "-" + y.ToString()];
+        return null;
+    }
+
+    public bool IsPointInsideBoard(Point p)
+    {
+        if (p.X < 0 || p.X >= BoardSizeX)
+            return false;
+        if (p.Y < 0 || p.X >= BoardSizeY)
+            return false;
+        return true;
     }
 
     public bool IsPointsInsideBoard(List<Point> points)
@@ -65,47 +81,5 @@ public class Board : MonoBehaviour
                 return false;
         }
         return true;
-    }
-
-    public bool CheckFullLine(int lineNumber)
-    {
-        for (int i = 0; i < BoardSizeX; ++i)
-        {
-            if (!GetTile(i, lineNumber).IsFull)
-                return false;
-        }
-        return true;
-    }
-
-    public bool IsLineInSameColor(int lineNumber)
-    {
-        Color firstTileColor = GetTile(0, lineNumber).Color;
-
-        for (int i = 0; i < BoardSizeX; ++i)
-        {
-            if (GetTile(i, lineNumber).Color != firstTileColor)
-                return false;
-        }
-        return true;
-    }
-
-    public void ClearLine(int lineNumber)
-    {
-        for (int i = 0; i < BoardSizeX; ++i)
-        {
-            GetTile(i, lineNumber).Color = Color.white;
-        }
-    }
-
-    public void CollapseOnLine(int lineNumber)
-    {
-        for (int j = lineNumber; j < BoardSizeY - 1; ++j)
-        {
-            for (int i = 0; i < BoardSizeX; ++i)
-            {
-                GetTile(i, j).Color = GetTile(i, j + 1).Color;
-            }
-        }
-        ClearLine(BoardSizeY - 1);
     }
 }

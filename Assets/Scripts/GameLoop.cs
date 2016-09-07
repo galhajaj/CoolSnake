@@ -5,9 +5,16 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 
+public enum SnakeDirection
+{
+    RIGHT, LEFT, UP, DOWN
+}
+
 public class GameLoop : MonoBehaviour 
 {
     public Board Board;
+    private Point _snakeHead;
+    public SnakeDirection Direction;
 
     public Text ScoreText;
     private int _score = 0;
@@ -18,7 +25,8 @@ public class GameLoop : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-	
+        _snakeHead = new Point(Board.BoardSizeX / 2, Board.BoardSizeY / 2);
+        Time.timeScale = 0.0F;
 	}
 	
 	// Update is called once per frame
@@ -32,7 +40,38 @@ public class GameLoop : MonoBehaviour
             _timePassed = StepTime;
 
             // DO THINGS!
+            if (Direction == SnakeDirection.DOWN)
+            {
+                _snakeHead.Y--;
+            }
+            else if (Direction == SnakeDirection.UP)
+            {
+                _snakeHead.Y++;
+            }
+            else if (Direction == SnakeDirection.RIGHT)
+            {
+                _snakeHead.X++;
+            }
+            else if (Direction == SnakeDirection.LEFT)
+            {
+                _snakeHead.X--;
+            }
 
+            Tile nextTile = Board.GetTile(_snakeHead.X, _snakeHead.Y);
+
+            if (nextTile == null)
+            {
+                SceneManager.LoadScene("mainScene");
+                return;
+            }
+
+            if (nextTile.IsFull)
+            {
+                SceneManager.LoadScene("mainScene");
+                return;
+            }
+
+            nextTile.Color = Color.black;
         }
 	}
 
