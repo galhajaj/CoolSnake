@@ -85,6 +85,8 @@ public class GameLoop : MonoBehaviour
             }
 
             nextTile.Color = Color.black;
+            nextTile.FillCounter = _score + 4;
+            Board.ClearFillCounterZeroTiles();
 
             if (!_isFoodExists)
             {

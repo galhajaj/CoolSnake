@@ -17,7 +17,12 @@ public class Tile : MonoBehaviour
 		}
 	}*/
 
-    public int FillCounter = 0;
+    private int _fillCounter = 0;
+    public int FillCounter
+    {
+        get { return _fillCounter; }
+        set { _fillCounter = value; }
+    }
     
     public Color Color
     {

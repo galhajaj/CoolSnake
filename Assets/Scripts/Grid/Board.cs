@@ -99,4 +99,19 @@ public class Board : MonoBehaviour
 
         return tilesList[Random.Range(0,tilesList.Count)];
     }
+
+    public void ClearFillCounterZeroTiles()
+    {
+        foreach (Transform t in Tiles)
+        {
+            Tile tileScript = t.gameObject.GetComponent<Tile>();
+            if (tileScript.FillCounter > 0)
+                tileScript.FillCounter--;
+            if (tileScript.FillCounter <= 0)
+            {
+                if (tileScript.IsFull && !tileScript.IsContainFood)
+                    tileScript.Color = Color.white;
+            }
+        }
+    }
 }
