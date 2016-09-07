@@ -15,6 +15,7 @@ public class GameLoop : MonoBehaviour
     public Board Board;
     private Point _snakeHead;
     public SnakeDirection Direction;
+    private bool _isFoodExists = false;
 
     public Text ScoreText;
     private int _score = 0;
@@ -61,17 +62,36 @@ public class GameLoop : MonoBehaviour
 
             if (nextTile == null)
             {
+                if (this.Score > PlayerPrefs.GetInt("BestScore"))
+                    PlayerPrefs.SetInt("BestScore", this.Score);
                 SceneManager.LoadScene("mainScene");
                 return;
             }
 
             if (nextTile.IsFull)
             {
-                SceneManager.LoadScene("mainScene");
-                return;
+                if (nextTile.IsContainFood)
+                {
+                    _score++;
+                    _isFoodExists = false;
+                }
+                else
+                {
+                    if (this.Score > PlayerPrefs.GetInt("BestScore"))
+                        PlayerPrefs.SetInt("BestScore", this.Score);
+                    SceneManager.LoadScene("mainScene");
+                    return;
+                }
             }
 
             nextTile.Color = Color.black;
+
+            if (!_isFoodExists)
+            {
+                Tile foodTile = Board.GetRandomFreeTile();
+                foodTile.Color = Color.red;
+                _isFoodExists = true;
+            }
         }
 	}
 

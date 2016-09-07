@@ -82,4 +82,21 @@ public class Board : MonoBehaviour
         }
         return true;
     }
+
+    public Tile GetRandomFreeTile()
+    {
+        List<Tile> tilesList = new List<Tile>();
+
+        foreach (Transform t in Tiles)
+        {
+            Tile tileScript = t.gameObject.GetComponent<Tile>();
+            if (!tileScript.IsFull)
+                tilesList.Add(tileScript);
+        }
+
+        if (tilesList.Count == 0)
+            return null;
+
+        return tilesList[Random.Range(0,tilesList.Count)];
+    }
 }

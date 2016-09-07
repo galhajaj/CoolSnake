@@ -25,6 +25,16 @@ public class Tile : MonoBehaviour
         set { this.gameObject.GetComponent<SpriteRenderer>().color = value; }
     }
 
+    public bool IsContainFood
+    {
+        get 
+        { 
+            if (this.Color == Color.red)
+                return true;
+            return false;
+        }
+    }
+
     public bool IsFull
     {
         get 
