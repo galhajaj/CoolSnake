@@ -72,6 +72,7 @@ public class GameLoop : MonoBehaviour
             {
                 if (nextTile.IsContainFood)
                 {
+                    VibrationManager.Vibrate(100);
                     _score++;
                     _isFoodExists = false;
                 }
